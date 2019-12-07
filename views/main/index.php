@@ -1,0 +1,1 @@
+<h1 class="mt-5">Bienvenido <?php echo $_SESSION['nombre']; ?></h1>

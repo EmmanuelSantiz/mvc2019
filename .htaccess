@@ -1,0 +1,9 @@
+RewriteEngine on
+
+#Redirigir Css
+RewriteCond %{REQUEST_FILENAME} !=d
+RewriteCond %{REQUEST_FILENAME} !=f
+RewriteCond %{REQUEST_FILENAME} !=l
+
+#Redirigir a index.php
+RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
