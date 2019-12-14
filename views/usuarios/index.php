@@ -14,7 +14,10 @@
 					Fecha
 				</td>
 				<td>
-					Opcionces
+					Editar
+				</td>
+				<td>
+					Borrar
 				</td>
 			</tr>
 		</thead>
@@ -68,17 +71,28 @@
 </script>
 <?php
 function crear_tabla($array = array()) {
-	if(count($array) > 0) {
+	if(count($array) > 0) { 
 		foreach($array as $key) {
 			echo '<tr>';
 			echo '<td>'.$key['id'].'</td>';
 			echo '<td>'.$key['nombre'].'</td>';
 			echo '<td>'.$key['created'].'</td>';
-			echo '<td><button type="button" class="btn btn-warning" onclick="update('.$key['id'].')">Update</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].',1)">Delete</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].')">DeleteLogico</button></td>';
+			$cad = '';
+			if($_SESSION['permisos']['editar'] == 1) {
+				$cad .= '<td><button type="button" class="btn btn-warning" onclick="update('.$key['id'].')">Update</button></td>';
+			} else {
+				$cad .= '<td></td>';
+			}
+			if($_SESSION['permisos']['borrar'] == 1) {
+				$cad .= '<td><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].')">Delete</button></td></td>';
+			} else {
+				$cad .= '<td></td>';
+			}
+			echo $cad;
 			echo '</tr>';
 		}
 	} else {
-		echo '<tr class="danger"><td colspan="3" class="text-center" style="font-size: 13px;">SIN DATOS!!</td></tr>';
+		echo '<tr class="danger"><td colspan="5" class="text-center" style="font-size: 13px;">SIN DATOS!!</td></tr>';
 	}
 }
 ?>

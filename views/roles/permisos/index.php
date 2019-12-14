@@ -1,29 +1,30 @@
-<h1 class="mt-5">Lista de Roles</h1>
+<h1 class="mt-5">Lista de Permisos</h1>
 <div class="table-responsive">
-	<button type="button" class="btn btn-success" onclick=location.href="<?php echo base_url("roles/rol"); ?>">Agregar</button>
+	<button type="button" class="btn btn-success" onclick=location.href="<?php echo base_url("roles/permiso/"); ?>">Agregar</button>
 	<table class="table table-striped">
 		<thead>
 			<tr>
+				<td>ID</td>
 				<td>
-					ID
+					Rol
 				</td>
 				<td>
-					Nombre
+					Borrar
 				</td>
 				<td>
-					Descripcion
+					Agregar
 				</td>
 				<td>
-					Fecha
+					Ver
 				</td>
 				<td>
-					Opcionces
+					Editar
 				</td>
 			</tr>
 		</thead>
 		<tbody>
 			<?php
-			crear_tabla($parametros['roles']);
+			crear_tabla($parametros['url_permisos']);
 			?>
 		</tbody>
 	</table>
@@ -48,11 +49,11 @@
     </div>
   </div>
 </div>
-<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-	var urlDelete = '<?php echo base_url("roles/borrar/"); ?>';
+	var urlDelete = '<?php echo base_url("usuarios/borrar/"); ?>';
 	function update(id) {
-		window.location.href = '<?php echo base_url("roles/rol/"); ?>'+id;
+		window.location.href = '<?php echo base_url("roles/permiso/"); ?>'+id;
 	}
 	
 	function borrar(id, tipo = 0) {
@@ -76,13 +77,15 @@ function crear_tabla($array = array()) {
 			echo '<tr>';
 			echo '<td>'.$key['id'].'</td>';
 			echo '<td>'.$key['nombre'].'</td>';
-			echo '<td>'.$key['descripcion'].'</td>';
-			echo '<td>'.$key['created'].'</td>';
+			echo '<td>'.$key['borrar'].'</td>';
+			echo '<td>'.$key['agregar'].'</td>';
+			echo '<td>'.$key['ver'].'</td>';
+			echo '<td>'.$key['editar'].'</td>';
 			echo '<td><button type="button" class="btn btn-warning" onclick="update('.$key['id'].')">Update</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].',1)">Delete</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].')">DeleteLogico</button></td>';
 			echo '</tr>';
 		}
 	} else {
-		echo '<tr class="danger"><td colspan="5" class="text-center" style="font-size: 13px;">SIN DATOS!!</td></tr>';
+		echo '<tr class="danger"><td colspan="6" class="text-center" style="font-size: 13px;">SIN DATOS!!</td></tr>';
 	}
 }
 ?>

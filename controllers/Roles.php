@@ -39,5 +39,48 @@ class Roles extends Controller {
 			echo retornoJson($respuesta);
 		}
 	}
+
+	//////////////////////PERMISOS
+	public function permisos() {
+		if (!isset($_SESSION['id'])) {
+			$this->view->render('login');
+		} else {
+			//$respuesta['roles'] = $this->Model->getAll();
+			//$this->Model->setTable('url_permisos');
+			$respuesta['url_permisos'] = $this->Model->getRoleswhitPermis();
+			$this->view->template('roles/permisos/index', $respuesta);
+		}
+	}
+
+	public function permiso() {
+		$this->Model->setTable('url_permisos');
+		$respuesta['id'] = $this->getId();
+		$respuesta['url_permisos'] = $this->Model->getTable($this->getId());
+
+		//Get roles
+		$this->Model->setTable('roles');
+		$respuesta['roles'] = $this->Model->getAllTable();
+
+		$this->view->template('roles/permisos/permiso', $respuesta);
+
+		if ($_POST) {
+			$rol = $_POST;
+			$rolSave = array();
+			foreach($rol as $rl => $key) {
+				if($rl == 'id_rol') {
+					$rolSave[$rl] = $key;
+					continue;
+				}
+				
+				$key = $key == 'on' ? 1 : 0;
+				$rolSave[$rl] = $key;
+			}
+			$rolSave['id'] = $this->getId();
+			//dd(array($rol, $rolSave));
+
+			$respuesta['data'] = $this->Model->rolPermiso($rolSave);
+			redirect('roles/permisos');
+		}
+	}
 }
 ?>

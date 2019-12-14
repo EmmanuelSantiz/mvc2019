@@ -19,6 +19,7 @@ class View {
 		$this->parametros = $parametros;
 		$this->error = $error;
 		require 'views/header.php';
+		require 'views/extras.php';
 		if($nombre)
 			require 'views/'.$nombre.'.php';
 		require 'views/footer.php';
