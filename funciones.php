@@ -32,4 +32,25 @@ if (!function_exists('redirect')) {
 		header('Location: http://localhost/curso/'.$data);
 	}
 }
+
+if(!function_exists('create_buttons')) {
+	function create_buttons($permisos = array()) {
+		if(count($permisos) == 0) {
+			return '<td></td><td></td>';
+		} else {
+			$btnPermisos = '';
+			if($permisos['permisos']['editar'] == 1) {
+				$btnPermisos .= '<td><button type="button" class="btn btn-warning" onclick="update('.$permisos['id'].')">Update</button></td>';
+			} else {
+				$btnPermisos .= '<td></td>';
+			}
+			if($permisos['permisos']['borrar'] == 1) {
+				$btnPermisos .= '<td><button type="button" class="btn btn-danger" onclick="borrar('.$permisos['id'].')">Delete</button></td></td>';
+			} else {
+				$btnPermisos .= '<td></td>';
+			}
+			return $btnPermisos;
+		}
+	}
+}
 ?>

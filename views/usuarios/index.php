@@ -1,6 +1,6 @@
 <h1 class="mt-5">Lista de Usuarios</h1>
 <div class="table-responsive">
-	<button type="button" class="btn btn-success" onclick=location.href="<?php echo base_url("usuarios/"); ?>">Agregar</button>
+	<button type="button" class="btn btn-success" onclick=location.href="<?php echo base_url("usuarios/editar/"); ?>">Agregar</button>
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -48,7 +48,6 @@
     </div>
   </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 	var urlDelete = '<?php echo base_url("usuarios/borrar/"); ?>';
 	function update(id) {
@@ -77,18 +76,7 @@ function crear_tabla($array = array()) {
 			echo '<td>'.$key['id'].'</td>';
 			echo '<td>'.$key['nombre'].'</td>';
 			echo '<td>'.$key['created'].'</td>';
-			$cad = '';
-			if($_SESSION['permisos']['editar'] == 1) {
-				$cad .= '<td><button type="button" class="btn btn-warning" onclick="update('.$key['id'].')">Update</button></td>';
-			} else {
-				$cad .= '<td></td>';
-			}
-			if($_SESSION['permisos']['borrar'] == 1) {
-				$cad .= '<td><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].')">Delete</button></td></td>';
-			} else {
-				$cad .= '<td></td>';
-			}
-			echo $cad;
+			echo create_buttons($_SESSION);
 			echo '</tr>';
 		}
 	} else {

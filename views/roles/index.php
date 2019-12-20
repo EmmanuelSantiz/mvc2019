@@ -78,7 +78,8 @@ function crear_tabla($array = array()) {
 			echo '<td>'.$key['nombre'].'</td>';
 			echo '<td>'.$key['descripcion'].'</td>';
 			echo '<td>'.$key['created'].'</td>';
-			echo '<td><button type="button" class="btn btn-warning" onclick="update('.$key['id'].')">Update</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].',1)">Delete</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].')">DeleteLogico</button></td>';
+			echo create_buttons($_SESSION);
+			//echo '<td><button type="button" class="btn btn-warning" onclick="update('.$key['id'].')">Update</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].',1)">Delete</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].')">DeleteLogico</button></td>';
 			echo '</tr>';
 		}
 	} else {

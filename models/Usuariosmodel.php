@@ -56,9 +56,15 @@ class UsuariosModel extends Model {
 	}
 
 	public function getUserwhitRoles() {
-		$query = $this->db->connect()->prepare('SELECT ur.id as id, u.nombre AS nombre_usuario, r.nombre AS nombre_rol FROM usuarios_roles ur LEFT JOIN usuarios u ON u.id = ur.id_usuario LEFT JOIN roles r ON r.id = ur.id_rol');
+		$query = $this->db->connect()->prepare('SELECT ur.id as id, u.nombre AS nombre_usuario, r.nombre AS nombre_rol FROM usuarios_roles ur LEFT JOIN usuarios u ON u.id = ur.id_usuario LEFT JOIN roles r ON r.id = ur.id_rol WHERE u.activo = 1 AND ur.activo = 1');
 		$query->execute();
 		return $query->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function borrarLogicoUR($id) {
+		$query = $this->db->connect()->prepare('UPDATE usuarios_roles SET activo = 0 WHERE id = :id');
+		$query->execute(array('id' => $id));
+		return $query->rowCount();
 	}
 
 	/*public function insert($array) {
