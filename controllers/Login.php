@@ -18,6 +18,12 @@ class Login extends Controller {
 			if($data) {
 				$_SESSION['id'] = $data['id'];
 				$_SESSION['nombre'] = $data['nombre'];
+
+				//Get permisos
+				$permisos = $this->Model->getPermisos(array('id' => $data['id']));
+				if($permisos) {
+					$_SESSION['permisos'] = $permisos;
+				}
 			} else {
 				$_SESSION['temp'] = true;
 			}

@@ -43,6 +43,24 @@ class UsuariosModel extends Model {
 		}
 	}
 
+	public function setUsuarioRol($array = array()) {
+		if($array['id']) {
+			$query = $this->db->connect()->prepare('UPDATE usuarios_roles SET id_usuario = :id_usuario, id_rol = :id_rol WHERE id = :id');
+			$query->execute(array('id' => $array['id'], 'id_usuario' => $array['id_usuario'], 'id_rol' => $array['id_rol']));
+			return $query->rowCount();
+		} else {
+			$query = $this->db->connect()->prepare('INSERT INTO usuarios_roles(id, id_usuario, id_rol) VALUES (null, :id_usuario, :id_rol)');
+			$query->execute(array('id_usuario' => $array['id_usuario'], 'id_rol' => $array['id_rol']));
+			return $this->db->connect()->lastInsertId();
+		}
+	}
+
+	public function getUserwhitRoles() {
+		$query = $this->db->connect()->prepare('SELECT ur.id as id, u.nombre AS nombre_usuario, r.nombre AS nombre_rol FROM usuarios_roles ur LEFT JOIN usuarios u ON u.id = ur.id_usuario LEFT JOIN roles r ON r.id = ur.id_rol');
+		$query->execute();
+		return $query->fetchAll(PDO::FETCH_ASSOC);
+	}
+
 	/*public function insert($array) {
 		try {
 			$query = $this->db->connect()->prepare('INSERT INTO cat_usuarios(id_usuario, char_usuario, char_password, date_fecha) VALUES(null, :char_usuario, :char_password, :date_fecha)');
