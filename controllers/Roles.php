@@ -7,14 +7,16 @@ class Roles extends Controller {
 	}
 
 	public function index() {
-		if (!isset($_SESSION['id'])) {
+		if(!$this->helper->validar('ver'))
+			redirect();
+		/*if (!isset($_SESSION['id'])) {
 			$this->view->render('login');
-		} else {
+		} else {*/
 			//$respuesta['roles'] = $this->Model->getAll();
 			$this->Model->setTable('roles');
 			$respuesta['roles'] = $this->Model->getAllTable();
 			$this->view->template('roles/index', $respuesta);
-		}
+		//}
 	}
 
 	public function rol() {

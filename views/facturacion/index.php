@@ -1,0 +1,59 @@
+<h1 class="mt-5">Lista de Facturas</h1>
+<div class="table-responsive">
+	<button type="button" class="btn btn-success" onclick=location.href="<?php echo base_url("facturacion/factura/"); ?>">Agregar</button>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<td>
+					ID
+				</td>
+				<td>
+					Editar
+				</td>
+				<td>
+					Borrar
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<?php
+			crear_tabla($parametros['facturas']);
+			?>
+		</tbody>
+	</table>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">BORRAR</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>        
+      </div>
+      <div class="modal-body">
+      	<p class="text-center">¿Esta seguro que desea eliminar este registro?</p>
+      	<input type="hidden" name="id" id="id" value="">
+      	<input type="hidden" name="typo" id="tipo" value="">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" id="proceso" onclick="proceso()">Procesar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<?php
+function crear_tabla($array = array()) {
+	if(count($array) > 0) {
+		foreach($array as $key) {
+			echo '<tr>';
+			echo '<td>'.$key['id'].'</td>';
+			echo create_buttons($_SESSION);
+			//echo '<td><button type="button" class="btn btn-warning" onclick="update('.$key['id'].')">Update</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].',1)">Delete</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].')">DeleteLogico</button></td>';
+			echo '</tr>';
+		}
+	} else {
+		echo '<tr class="danger"><td colspan="3" class="text-center" style="font-size: 13px;">SIN DATOS!!</td></tr>';
+	}
+}
+?>

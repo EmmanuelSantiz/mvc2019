@@ -22,5 +22,11 @@ class Model {
 		$query->execute(array('id' => $id));
 		return $query->fetch(PDO::FETCH_ASSOC);
 	}
+
+	public function getLastId() {
+		$query = $this->db->connect()->query("SELECT id FROM ".$this->table." ORDER BY id DESC LIMIT 1");
+		$query->execute();
+		return $query->fetch(PDO::FETCH_ASSOC);
+	}
 }
 ?>
