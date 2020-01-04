@@ -14,6 +14,19 @@ class FacturasModel extends Model {
 		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	public function get($id) {
+		$respuesta = array();
+		$query = $this->db->connect()->prepare('SELECT *, DATE_FORMAT(fecha, "%d/%m/%Y") AS fecha FROM factura WHERE id = :id');
+		$query->execute(array('id' => $id));
+		if($query) {
+			$respuesta = $query->fetch(PDO::FETCH_ASSOC);
+			$query_detail = $this->db->connect()->prepare('SELECT df.*, p.nombre FROM detalle_factura df LEFT JOIN productos p ON p.id = df.id_producto WHERE df.id_factura = :id');
+			$query_detail->execute(array('id' => $id));
+			$respuesta['detalle'] = $query_detail->fetchAll(PDO::FETCH_ASSOC);
+		}
+		return $respuesta;
+	}
+
 	public function add_productos($array = array()) {
 		if(isset($array['id'])) {
 			$query = $this->db->connect()->prepare('UPDATE productos SET nombre = :nombre, UM = :UM, precio = :precio WHERE id = :id');
@@ -46,8 +59,8 @@ class FacturasModel extends Model {
 		if(isset($array['id'])) {
 
 		} else {
-			$query = $this->db->connect()->prepare('INSERT INTO detalle_factura(id, id_factura, id_producto, cantidad, subtotal) VALUES(null, :id_factura, :id_producto, :cantidad, :subtotal)');
-			$query->execute(array('id_factura' => $array['id_factura'], 'id_producto' => $array['id_producto'], 'subtotal' => $array['subtotal'], 'cantidad' => $array['cantidad']));
+			$query = $this->db->connect()->prepare('INSERT INTO detalle_factura(id, id_factura, id_producto, cantidad, subtotal, precio) VALUES(null, :id_factura, :id_producto, :cantidad, :subtotal, :precio)');
+			$query->execute(array('id_factura' => $array['id_factura'], 'id_producto' => $array['id_producto'], 'subtotal' => $array['subtotal'], 'cantidad' => $array['cantidad'], 'precio' => $array['precio']));
 			return  $this->db->connect()->lastInsertId();
 		}
 	}

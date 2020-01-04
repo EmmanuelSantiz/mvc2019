@@ -139,18 +139,24 @@
 					  <input id="id_cliente" name="id_cliente" type="hidden">	
 				  </div>
 				  <label for="condiciones" class="col-md-1 control-label">Estado</label>
+				  <?php
+				  $estado = isset($parametros['id']) ? $parametros['factura']['estado'] : '';
+				  ?>
 							<div class="col-md-3">
 								<select class="form-control input-sm" id="estado" name="estado">
-									<option value="pendiente">Pendiente</option>
-									<option value="pagado">Pagado</option>
-									<option value="cancelado">Cancelado</option>
+									<option value="pendiente" <?php echo $estado == 'pendiente' ? 'selected="selected"': ''; ?>>Pendiente</option>
+									<option value="pagado" <?php echo $estado == 'pagado' ? 'selected="selected"': ''; ?>>Pagado</option>
+									<option value="cancelado" <?php echo $estado == 'cancelado' ? 'selected="selected"': ''; ?>>Cancelado</option>
 								</select>
 							</div>
 				 </div>
 						<div class="form-group row">
 							<label for="tel2" class="col-md-1 control-label">Fecha</label>
 							<div class="col-md-2">
-								<input type="text" class="form-control input-sm" id="fecha" value="<?php echo date('d/m/Y'); ?>" readonly="">
+								<?php
+								$fecha = isset($parametros['id']) ? $parametros['factura']['fecha'] : date('d/m/Y'); 
+								?>
+								<input type="text" class="form-control input-sm" id="fecha" value="<?php echo $fecha; ?>" readonly="">
 							</div>
 							<label for="condiciones" class="col-md-1 control-label">Pago</label>
 							<div class="col-md-3">
@@ -178,9 +184,16 @@
 						<button type="button" class="btn btn-default" id="save">
 						  <span class="glyphicon glyphicon-floppy-disk"></span> Guardar factura
 						</button>
+						<button type="button" class="btn btn-default">
+						  <a href="<?php echo base_url('facturacion/test/').$parametros["id"];?>" target="_blank"><span class="glyphicon glyphicon-print"></span> Imprimir</a>
+						</button>
+						<button type="button" class="btn btn-default">
+						  <a href="<?php echo base_url('facturacion/sendMail/').$parametros["id"];?>" target="_blank"><span class="glyphicon glyphicon-print"></span> Enviar</a>
+						</button>
 					</div>	
 				</div>
 				<div class="col-md-12" id="cart">
+					<?php if(isset($parametros['id'])) { echo createElement($parametros['factura']); } ?>
 				</div>
 			</form>	
 			
@@ -195,6 +208,35 @@
 			</div>	
 		 </div>
 	</div>
+	<?php
+	function createElement($parametros) {
+		$cart = '<div class="outer_div"><table class="table table-responsive">';
+		$cart .= '<thead><tr><th>Id</th><th>Nombre</th><th>Cantidad</th><th>Precio</th><th>SubTotal</th><th></th></tr></thead><tbody>';
+		$subtotal = 0;
+		$total = 0;
+		if(count($parametros['detalle']) > 0) {
+			$i = 0;
+			foreach($parametros['detalle'] as $detalle) {
+				$subtotal = $subtotal + $detalle['subtotal'];
+				$total = $total + $detalle['subtotal'];
+				$cart .= '<tr>';
+				$cart .= '<td>'.$detalle['id_producto'].'</td>';
+				$cart .= '<td>'.$detalle['nombre'].'</td>';
+				$cart .= '<td class="col-xs-1 col-md-1"><div class="pull-right">'.
+						'<input type="text" class="form-control" style="text-align:right" value="'.$detalle['cantidad'].'" readonly="readonly"></div></td>';
+				$cart .= '<td>'.$detalle['precio'].'</td>';
+				$cart .= '<td>'.$detalle['subtotal'].'</td>';
+				$cart .= '<td><button class="btn btn-danger btnDelete" data-indice='.$i.' type="button">X</button></td>';
+				$cart .= '</tr>';
+				$i++;
+			}
+		}
+		$cart .= '<tr><td colspan="4">SubTotal</td><td>'.$subtotal.'</td></tr>'.
+							'<tr><td colspan="4">Total</td><td>'.$total.'</td></tr>';
+		$cart .= '</tbody></table></div>';
+		return $cart;
+	} 
+	?>
 <script type="text/javascript">
 	var carrito = [];
 	var subtotal = 0;

@@ -8,6 +8,12 @@
 					ID
 				</td>
 				<td>
+					Fecha
+				</td>
+				<td>
+					Estatus
+				</td>
+				<td>
 					Editar
 				</td>
 				<td>
@@ -17,6 +23,9 @@
 		</thead>
 		<tbody>
 			<?php
+			/*echo '<pre>';
+			var_dump($parametros);
+			echo '</pre>';*/
 			crear_tabla($parametros['facturas']);
 			?>
 		</tbody>
@@ -42,13 +51,21 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+	//var urlDelete = '<?php echo base_url("factura/borrar/"); ?>';
+	function update(id) {
+		window.location.href = '<?php echo base_url("facturacion/factura/"); ?>'+id;
+	}
+</script>
 <?php
 function crear_tabla($array = array()) {
 	if(count($array) > 0) {
 		foreach($array as $key) {
 			echo '<tr>';
 			echo '<td>'.$key['id'].'</td>';
-			echo create_buttons($_SESSION);
+			echo '<td>'.$key['fecha'].'</td>';
+			echo '<td>'.$key['estado'].'</td>';
+			echo create_buttons($_SESSION, array('id' => $key['id']));
 			//echo '<td><button type="button" class="btn btn-warning" onclick="update('.$key['id'].')">Update</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].',1)">Delete</button><button type="button" class="btn btn-danger" onclick="borrar('.$key['id'].')">DeleteLogico</button></td>';
 			echo '</tr>';
 		}

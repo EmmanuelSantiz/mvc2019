@@ -34,18 +34,18 @@ if (!function_exists('redirect')) {
 }
 
 if(!function_exists('create_buttons')) {
-	function create_buttons($permisos = array()) {
+	function create_buttons($permisos = array(), $params = array()) {
 		if(count($permisos) == 0) {
 			return '<td></td><td></td>';
 		} else {
 			$btnPermisos = '';
 			if($permisos['permisos']['editar'] == 1) {
-				$btnPermisos .= '<td><button type="button" class="btn btn-warning" onclick="update('.$permisos['id'].')">Update</button></td>';
+				$btnPermisos .= '<td><button type="button" class="btn btn-warning" onclick="update('.$params['id'].')">Update</button></td>';
 			} else {
 				$btnPermisos .= '<td></td>';
 			}
 			if($permisos['permisos']['borrar'] == 1) {
-				$btnPermisos .= '<td><button type="button" class="btn btn-danger" onclick="borrar('.$permisos['id'].')">Delete</button></td></td>';
+				$btnPermisos .= '<td><button type="button" class="btn btn-danger" onclick="borrar('.$params['id'].')">Delete</button></td></td>';
 			} else {
 				$btnPermisos .= '<td></td>';
 			}
