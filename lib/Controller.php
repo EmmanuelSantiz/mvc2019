@@ -5,6 +5,7 @@ class Controller {
 	function __construct() {
 		$this->view = new view();
 		$this->helper = new helper();
+		$this->supermodel = new supermodel();
 	}
 
 	function loadModel($model) {
