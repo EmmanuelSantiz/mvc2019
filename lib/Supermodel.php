@@ -40,22 +40,7 @@ class Supermodel {
             $this->group_by($params['group']);
         }
 
-        //$query = $this->db->connect()->prepare($this->preparar());
-        //$query->execute();
-        $result = $this->preparar($type);
-        return $result;
-        /*switch($type) {
-            case 'count':
-                break;
-            case 'first':
-                //$result = $query->fetch(PDO::FETCH_ASSOC);
-                break;
-            default:
-                //$result = $query->fetchAll(PDO::FETCH_ASSOC);
-                break;
-        }
-        return $result;*/
-        //return $this->preparar();
+        return $this->preparar($type);
     }
     public function from($from) {
         $this->from = ' FROM ';

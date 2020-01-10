@@ -76,7 +76,7 @@ function crear_tabla($array = array()) {
 			echo '<td>'.$key['id'].'</td>';
 			echo '<td>'.$key['nombre'].'</td>';
 			echo '<td>'.$key['created'].'</td>';
-			echo create_buttons($_SESSION);
+			echo create_buttons($_SESSION, array('id' => $key['id']));
 			echo '</tr>';
 		}
 	} else {
