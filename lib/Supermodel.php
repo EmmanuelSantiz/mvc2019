@@ -42,8 +42,9 @@ class Supermodel {
 
         //$query = $this->db->connect()->prepare($this->preparar());
         //$query->execute();
-        $result = $this->preparar();
-        switch($type) {
+        $result = $this->preparar($type);
+        return $result;
+        /*switch($type) {
             case 'count':
                 break;
             case 'first':
@@ -53,7 +54,7 @@ class Supermodel {
                 //$result = $query->fetchAll(PDO::FETCH_ASSOC);
                 break;
         }
-        return $result;
+        return $result;*/
         //return $this->preparar();
     }
     public function from($from) {
@@ -100,7 +101,7 @@ class Supermodel {
     public function group_by($by) {
         $this->group_by = ' GROUP BY '.$by;
     }
-    public function preparar() {
+    public function preparar($type) {
         $salida = '';
         if($this->select) $salida .= $this->select;
         if($this->fields) $salida .= $this->fields;
@@ -108,7 +109,20 @@ class Supermodel {
         if($this->join) $salida .= $this->join;
         $salida .= $this->where;
         if($this->group_by) $salida .= $this->group_by;
-        return $salida;
+        //return $salida;
+        $query = $this->db->connect()->prepare($salida);
+        $query->execute();
+        switch($type) {
+            case 'count':
+                return count($query->fetchAll(PDO::FETCH_ASSOC));
+                break;
+            case 'first':
+                return $query->fetch(PDO::FETCH_ASSOC);
+                break;
+            default:
+                return $query->fetchAll(PDO::FETCH_ASSOC);
+                break;
+        }
     }
 }
 ?>

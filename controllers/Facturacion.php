@@ -195,5 +195,17 @@ class Facturacion extends Controller {
 		   echo $e->errorMessage();
 		}
 	}
+
+	public function imprimir() {
+		/*$this->supermodel->from('usuarios');
+		$this->supermodel->fields('*');*/
+		dd($this->supermodel->find('all',
+			array(
+				'from' => 'usuarios u',
+				'fields' => 'u.*',
+				//'where' => 'u.id = 1',
+			)
+		));
+	} 
 }
 ?>
